@@ -45,11 +45,10 @@ class User:
             if cls.password_is_valid(password): 
                 new_user_account = cls(username, password, phone_number)
                 cls.__users_dictionery[username] = new_user_account
-                return True
-            print("Enter at least four characters for password")
-            return False
-        print("This username already exists. try again")  
-        return False   
+            else:
+                raise ValueError("Enter at least four characters for password")
+        else:
+            raise ValueError("This username already exists. try again") 
 
 #-----------------------------------------------------------key = "2"-----------------------------------------------------------#
 
@@ -64,11 +63,9 @@ class User:
         
         if cls.username_is_exsist(username):
             if cls.__users_dictionery[username].__password == password:
-                return True
-            print("The password is not correct. try again")
-            return False 
-        print("The username is not correct. try again") 
-        return False     
+                return cls.__users_dictionery[username]
+            raise ValueError("Invalid password. try again...")
+        raise ValueError("The username is not correct. try again")   
 
 
 
@@ -81,15 +78,6 @@ class User:
         """
         return f"name: {self.username}, id: {self.id}, phone number: {self.phone_number}"
 
-    @classmethod
-    def show_user_informations(cls, username:str):
-        """
-        Due to the existence of __str__ function, 
-        we can watch the created users by this function.
-        """
-        user = cls.__users_dictionery[username]
-        print(user)
-        
 
 #-----------------------------------------------------------key = "2-2"-----------------------------------------------------------#
     @classmethod
@@ -103,9 +91,8 @@ class User:
             cls.__users_dictionery[new_username].username = new_username
             cls.__users_dictionery[new_username].phone_number = new_phone_number
             username = new_username
-            return True
-        print("The username is exsist. try again") 
-        return False     
+        else:
+            raise ValueError("This username already exists. try again")    
  
 #-----------------------------------------------------------key = "2-3"-----------------------------------------------------------#
  
@@ -119,9 +106,8 @@ class User:
         """
         if new_password == repeat_new_password:
             return True
-        print("new password and repeated new password is not equal toghether")    
-        return False  
-
+        raise ValueError("new password and repeated new password is not equal toghether")   
+    
 
     @classmethod
     def update_password(cls, old_password: str, username: str, new_password: str):
@@ -132,11 +118,9 @@ class User:
         if cls.__users_dictionery[username].__password == old_password:
             if cls.password_is_valid(new_password):
                 cls.__users_dictionery[username].__password = new_password
-                return True
-            print("Enter at least four characters for password")
-            return False    
-        print("Invalid password. try again...")    
-        return False        
+            else:
+                raise ValueError("Enter at least four characters for password")  
+        raise ValueError("Invalid password. try again...")        
 
 
      
